@@ -1,7 +1,8 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {
-  Button,
+  ActivityIndicator,
   FlatList,
+  Pressable,
   RefreshControl,
   StyleSheet,
   Text,
@@ -12,7 +13,10 @@ import TransactionItem from '../components/TransactionItem';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../navigation/AppNavigator';
 import ReactNativeBiometrics from 'react-native-biometrics';
-import {fetchTransactions} from '../services/transactionService.ts';
+import {
+  addTransaction,
+  fetchTransactions,
+} from '../services/transactionService';
 
 const rnb = new ReactNativeBiometrics();
 
@@ -37,6 +41,12 @@ export default function TransactionHistoryScreen({navigation}: Props) {
     }
   }, []);
 
+  const onRefresh = async () => {
+    // Add one new transaction before fetching
+    addTransaction();
+    loadData();
+  };
+
   const unmaskAmounts = async () => {
     try {
       const {success} = await rnb.simplePrompt({
@@ -45,7 +55,7 @@ export default function TransactionHistoryScreen({navigation}: Props) {
       if (success) {
         setMasked(false);
       } else {
-        setError('Authentication canceled or failed.');
+        setError('Authentication canceled or failed. Please try again');
       }
     } catch (e: any) {
       setError(e.message);
@@ -64,36 +74,83 @@ export default function TransactionHistoryScreen({navigation}: Props) {
     <View style={styles.container}>
       <View style={styles.headerRow}>
         <Text style={styles.title}>Recent Transactions</Text>
-        {masked && <Button title="Unmask" onPress={unmaskAmounts} />}
-        {!masked && <Button title="Mask" onPress={() => setMasked(true)} />}
+        <View style={styles.maskButtonContainer}>
+          {masked ? (
+            <Pressable style={styles.maskButton} onPress={unmaskAmounts}>
+              <Text style={styles.maskButtonText}>Unmask</Text>
+            </Pressable>
+          ) : (
+            <Pressable
+              style={styles.maskButton}
+              onPress={() => setMasked(true)}>
+              <Text style={styles.maskButtonText}>Mask</Text>
+            </Pressable>
+          )}
+        </View>
       </View>
       {error && <Text style={styles.error}>{error}</Text>}
-      <FlatList
-        data={transactions}
-        keyExtractor={item => item.id}
-        renderItem={({item}) => (
-          <TransactionItem
-            transaction={item}
-            masked={masked}
-            onPress={() => onPressTransaction(item.id)}
-          />
-        )}
-        refreshControl={
-          <RefreshControl refreshing={loading} onRefresh={loadData} />
-        }
-      />
+      {loading && transactions.length === 0 ? (
+        // Show a loader if initial load is happening
+        <View style={styles.loaderContainer}>
+          <ActivityIndicator size="large" color="#007AFF" />
+        </View>
+      ) : (
+        <FlatList
+          data={transactions}
+          keyExtractor={item => item.id}
+          renderItem={({item}) => (
+            <TransactionItem
+              transaction={item}
+              masked={masked}
+              onPress={() => onPressTransaction(item.id)}
+            />
+          )}
+          refreshControl={
+            <RefreshControl refreshing={loading} onRefresh={onRefresh} />
+          }
+          contentContainerStyle={
+            transactions.length === 0 ? styles.emptyList : null
+          }
+          ListEmptyComponent={
+            !loading && !error ? <Text>No Transactions Yet</Text> : null
+          }
+        />
+      )}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {flex: 1, padding: 16, backgroundColor: '#fff'},
+  container: {flex: 1, padding: 16, backgroundColor: '#F5F5F5'},
   headerRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: 12,
   },
-  title: {fontSize: 20, fontWeight: '600'},
+  title: {fontSize: 24, fontWeight: '600', color: '#333'},
   error: {color: 'red', marginTop: 10},
+  maskButtonContainer: {
+    flexDirection: 'row',
+  },
+  maskButton: {
+    backgroundColor: '#007AFF',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 20,
+  },
+  maskButtonText: {
+    color: '#fff',
+    fontWeight: '600',
+  },
+  loaderContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  emptyList: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
