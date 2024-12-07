@@ -1,20 +1,26 @@
 import React from 'react';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import TransactionHistoryScreen from '../screens/TransactionHistoryScreen';
-import TransactionDetailScreen from '../screens/TransactionDetailScreen';
+import LoginScreen from '../screens/LoginScreen.tsx';
+import TransactionHistoryScreen from '../screens/TransactionHistoryScreen.tsx';
+import TransactionDetailScreen from '../screens/TransactionDetailScreen.tsx';
 
-const Stack = createStackNavigator();
+export type RootStackParamList = {
+  Login: undefined;
+  Transactions: undefined;
+  TransactionDetail: { transactionId: string };
+};
 
-const AppNavigator = () => {
+const Stack = createNativeStackNavigator<RootStackParamList>();
+
+export default function AppNavigator() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="TransactionHistory" component={TransactionHistoryScreen} />
+      <Stack.Navigator initialRouteName="Login">
+        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Transactions" component={TransactionHistoryScreen} />
         <Stack.Screen name="TransactionDetail" component={TransactionDetailScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
-};
-
-export default AppNavigator;
+}
