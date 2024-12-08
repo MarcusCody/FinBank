@@ -3,6 +3,7 @@ import {Pressable, StyleSheet, Text, View} from 'react-native';
 import ReactNativeBiometrics, {BiometryTypes} from 'react-native-biometrics';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../navigation/AppNavigator';
+import {borderRadius, colors, fontSizes, fontWeights} from '../styles/theme';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
@@ -68,53 +69,53 @@ export default function LoginScreen({navigation}: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#6200EE',
+    backgroundColor: colors.background,
     justifyContent: 'center',
     alignItems: 'center',
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(98,0,238,0.3)',
+    backgroundColor: colors.overlay,
   },
   card: {
-    backgroundColor: '#FFF',
+    backgroundColor: colors.white,
     padding: 24,
-    borderRadius: 12,
+    borderRadius: borderRadius.card,
     width: '80%',
     alignItems: 'center',
 
-    shadowColor: '#000',
+    shadowColor: colors.shadow,
     shadowOpacity: 0.1,
     shadowRadius: 5,
     shadowOffset: {width: 0, height: 4},
     elevation: 5,
   },
   title: {
-    fontSize: 28,
-    fontWeight: '700',
-    color: '#333',
+    fontSize: fontSizes.title,
+    fontWeight: fontWeights.title,
+    color: colors.primary,
     marginBottom: 8,
   },
   subtitle: {
-    fontSize: 16,
-    color: '#666',
+    fontSize: fontSizes.subtitle,
+    color: colors.subtitle,
     marginBottom: 24,
     textAlign: 'center',
   },
   error: {
-    color: 'red',
+    color: colors.error,
     marginBottom: 16,
     textAlign: 'center',
   },
   button: {
-    backgroundColor: '#6200EE',
-    borderRadius: 24,
+    backgroundColor: colors.primary,
+    borderRadius: borderRadius.button,
     paddingVertical: 12,
     paddingHorizontal: 24,
   },
   buttonText: {
-    color: '#FFF',
-    fontWeight: '600',
-    fontSize: 16,
+    color: colors.white,
+    fontWeight: fontWeights.button,
+    fontSize: fontSizes.button,
   },
 });

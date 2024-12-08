@@ -1,6 +1,7 @@
 import React from 'react';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 import {Transaction} from '../types/Transaction';
+import {borderRadius, colors, fontSizes, fontWeights} from '../styles/theme';
 
 interface Props {
   transaction: Transaction;
@@ -36,15 +37,14 @@ export default function TransactionItem({transaction, onPress, masked}: Props) {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#FFF',
-    borderRadius: 8,
+    backgroundColor: colors.white,
+    borderRadius: borderRadius.card,
     padding: 16,
     marginBottom: 12,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-
-    shadowColor: '#000',
+    shadowColor: colors.shadow,
     shadowOpacity: 0.1,
     shadowRadius: 3,
     shadowOffset: {width: 0, height: 2},
@@ -55,13 +55,23 @@ const styles = StyleSheet.create({
     marginRight: 16,
   },
   description: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#333',
+    fontSize: fontSizes.subtitle,
+    fontWeight: fontWeights.button,
+    color: colors.primary,
     marginBottom: 4,
   },
-  date: {fontSize: 12, color: '#888'},
-  amount: {fontSize: 16, fontWeight: '700'},
-  credit: {color: 'red'},
-  debit: {color: 'green'},
+  date: {
+    fontSize: fontSizes.subtitle,
+    color: colors.subtitle,
+  },
+  amount: {
+    fontSize: fontSizes.subtitle,
+    fontWeight: fontWeights.title,
+  },
+  credit: {
+    color: colors.error,
+  },
+  debit: {
+    color: colors.success,
+  },
 });

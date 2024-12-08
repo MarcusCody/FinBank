@@ -4,6 +4,7 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../navigation/AppNavigator';
 import {Transaction} from '../types/Transaction';
 import {getTransactionById} from '../services/transactionService';
+import {borderRadius, colors, fontSizes, fontWeights} from '../styles/theme';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'TransactionDetail'>;
 
@@ -47,7 +48,7 @@ export default function TransactionDetailScreen({route}: Props) {
           <RefreshControl
             refreshing={refreshing}
             onRefresh={onRefresh}
-            tintColor="#6200EE"
+            tintColor={colors.primary}
           />
         }>
         <Text style={styles.error}>{error}</Text>
@@ -63,7 +64,7 @@ export default function TransactionDetailScreen({route}: Props) {
           <RefreshControl
             refreshing={refreshing}
             onRefresh={onRefresh}
-            tintColor="#6200EE"
+            tintColor={colors.primary}
           />
         }>
         <Text>Loading transaction...</Text>
@@ -78,7 +79,7 @@ export default function TransactionDetailScreen({route}: Props) {
         <RefreshControl
           refreshing={refreshing}
           onRefresh={onRefresh}
-          tintColor="#6200EE"
+          tintColor={colors.primary}
         />
       }>
       <View style={styles.detailCard}>
@@ -107,24 +108,28 @@ export default function TransactionDetailScreen({route}: Props) {
 }
 
 const styles = StyleSheet.create({
-  container: {flexGrow: 1, padding: 16, backgroundColor: '#F5F5F5'},
-  error: {color: 'red', fontSize: 16, textAlign: 'center', marginTop: 20},
+  container: {flexGrow: 1, padding: 16, backgroundColor: colors.white},
+  error: {
+    color: colors.error,
+    fontSize: fontSizes.subtitle,
+    textAlign: 'center',
+    marginTop: 20,
+  },
   detailCard: {
-    backgroundColor: '#FFF',
-    borderRadius: 8,
+    backgroundColor: colors.white,
+    borderRadius: borderRadius.card,
     padding: 16,
-    // subtle shadow
-    shadowColor: '#000',
+    shadowColor: colors.shadow,
     shadowOpacity: 0.1,
     shadowRadius: 3,
     shadowOffset: {width: 0, height: 2},
     elevation: 2,
   },
   header: {
-    fontSize: 22,
-    fontWeight: '700',
+    fontSize: fontSizes.title,
+    fontWeight: fontWeights.title,
     marginBottom: 12,
-    color: '#333',
+    color: colors.primary,
     textAlign: 'center',
   },
   row: {
@@ -133,14 +138,14 @@ const styles = StyleSheet.create({
   },
   label: {
     width: 100,
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#555',
+    fontSize: fontSizes.subtitle,
+    fontWeight: fontWeights.button,
+    color: colors.subtitle,
   },
   value: {
-    fontSize: 14,
+    fontSize: fontSizes.subtitle,
     flexShrink: 1,
-    color: '#333',
-    fontWeight: '500',
+    color: colors.primary,
+    fontWeight: fontWeights.button,
   },
 });

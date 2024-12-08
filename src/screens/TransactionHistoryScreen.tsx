@@ -17,6 +17,7 @@ import {
   addTransaction,
   fetchTransactions,
 } from '../services/transactionService';
+import {borderRadius, colors, fontSizes, fontWeights} from '../styles/theme';
 
 const rnb = new ReactNativeBiometrics();
 
@@ -91,7 +92,7 @@ export default function TransactionHistoryScreen({navigation}: Props) {
       {error && <Text style={styles.error}>{error}</Text>}
       {loading && transactions.length === 0 ? (
         <View style={styles.loaderContainer}>
-          <ActivityIndicator size="large" color="#6200EE" />
+          <ActivityIndicator size="large" color={colors.primary} />
         </View>
       ) : (
         <FlatList
@@ -108,7 +109,7 @@ export default function TransactionHistoryScreen({navigation}: Props) {
             <RefreshControl
               refreshing={loading}
               onRefresh={onRefresh}
-              tintColor="#6200EE"
+              tintColor={colors.primary}
             />
           }
           contentContainerStyle={
@@ -124,31 +125,34 @@ export default function TransactionHistoryScreen({navigation}: Props) {
 }
 
 const styles = StyleSheet.create({
-  // styles identical to the previously provided UI improvements
-  container: {flex: 1, padding: 16, backgroundColor: '#F5F5F5'},
+  container: {flex: 1, padding: 16, backgroundColor: colors.background},
   headerRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 12,
   },
-  title: {fontSize: 24, fontWeight: '700', color: '#333'},
-  error: {color: 'red', marginTop: 10, textAlign: 'center'},
+  title: {
+    fontSize: fontSizes.title,
+    fontWeight: fontWeights.title,
+    color: colors.primary,
+  },
+  error: {color: colors.error, marginTop: 10, textAlign: 'center'},
   maskButtonContainer: {
     flexDirection: 'row',
   },
   maskButton: {
-    backgroundColor: '#6200EE',
+    backgroundColor: colors.primary,
     paddingHorizontal: 16,
     paddingVertical: 8,
-    borderRadius: 20,
+    borderRadius: borderRadius.button,
   },
   maskedActive: {
-    backgroundColor: '#5E60CE',
+    backgroundColor: colors.primary,
   },
   maskButtonText: {
-    color: '#FFF',
-    fontWeight: '600',
+    color: colors.white,
+    fontWeight: fontWeights.button,
   },
   loaderContainer: {
     flex: 1,
