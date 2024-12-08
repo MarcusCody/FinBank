@@ -21,7 +21,11 @@ export default function TransactionItem({transaction, onPress, masked}: Props) {
       <View style={styles.infoContainer}>
         <Text style={styles.description}>{transaction.description}</Text>
         <Text style={styles.date}>
-          {new Date(transaction.date).toLocaleString()}
+          {new Date(transaction.date).toLocaleTimeString('en-US', {
+            hour: 'numeric',
+            minute: 'numeric',
+            hour12: true,
+          })}
         </Text>
       </View>
       <Text
