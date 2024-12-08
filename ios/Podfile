@@ -14,7 +14,7 @@ if linkage != nil
   use_frameworks! :linkage => linkage.to_sym
 end
 
-target 'SecureTransactionHistory' do
+target 'FinBank' do
   config = use_native_modules!
 
   use_react_native!(
@@ -23,7 +23,7 @@ target 'SecureTransactionHistory' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
-  target 'SecureTransactionHistoryTests' do
+  target 'FinBankTests' do
     inherit! :complete
     # Pods for testing
   end
