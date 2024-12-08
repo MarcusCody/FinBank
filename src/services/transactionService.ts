@@ -26,12 +26,19 @@ const descriptions = [
 // Global transaction list
 let transactions: Transaction[] = generateInitialTransactions(50);
 
+function generateUUID(): string {
+  return 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'.replace(/[x]/g, () => {
+    const r = Math.floor(Math.random() * 16);
+    return r.toString(16);
+  });
+}
+
 function generateInitialTransactions(count: number): Transaction[] {
   return Array.from({length: count}, (_, i) => {
     const randomDescription =
       descriptions[Math.floor(Math.random() * descriptions.length)];
     return {
-      id: `tx_${i}`,
+      id: generateUUID(),
       amount: Math.round(Math.random() * 1000),
       date: new Date(Date.now() - i * 86400000).toISOString(),
       description: randomDescription,
@@ -56,7 +63,7 @@ export function addTransaction() {
   const randomDescription =
     descriptions[Math.floor(Math.random() * descriptions.length)];
   const newTransaction: Transaction = {
-    id: `tx_${Math.floor(Math.random() * 100000)}`,
+    id: generateUUID(),
     amount: Math.round(Math.random() * 1000),
     date: new Date().toISOString(), // current time
     description: randomDescription,
