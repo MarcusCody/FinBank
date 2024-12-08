@@ -3,79 +3,80 @@ import {Pressable, StyleSheet, Text, View} from 'react-native';
 import {Transaction} from '../types/Transaction';
 import {borderRadius, colors, fontSizes, fontWeights} from '../styles/theme';
 
-interface Props {
+type Props = {
   transaction: Transaction;
-  onPress: () => void;
   masked: boolean;
-}
+  onPress: () => void;
+};
 
-export default function TransactionItem({transaction, onPress, masked}: Props) {
-  const displayAmount = masked
-    ? '*****'
-    : `${
-        transaction.type === 'credit' ? '-' : ''
-      }RM ${transaction.amount.toFixed(2)}`;
-
+export default function TransactionItem({transaction, masked, onPress}: Props) {
   return (
-    <Pressable style={styles.card} onPress={onPress}>
-      <View style={styles.infoContainer}>
+    <Pressable style={styles.container} onPress={onPress}>
+      <View style={styles.row}>
         <Text style={styles.description}>{transaction.description}</Text>
-        <Text style={styles.date}>
+        <Text
+          style={[
+            styles.amount,
+            transaction.type === 'credit' ? styles.credit : styles.debit,
+          ]}>
+          {transaction.type === 'credit' ? '-' : ''}RM{' '}
+          {masked ? '****' : transaction.amount.toFixed(2)}
+        </Text>
+      </View>
+      <View style={styles.row}>
+        <Text style={styles.time}>
           {new Date(transaction.date).toLocaleTimeString('en-US', {
             hour: 'numeric',
             minute: 'numeric',
             hour12: true,
           })}
         </Text>
+        <Text style={styles.type}>({transaction.type})</Text>
       </View>
-      <Text
-        style={[
-          styles.amount,
-          transaction.type === 'credit' ? styles.credit : styles.debit,
-        ]}>
-        {displayAmount}
-      </Text>
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
-  card: {
+  container: {
     backgroundColor: colors.white,
-    borderRadius: borderRadius.card,
     padding: 16,
-    marginBottom: 12,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    borderRadius: borderRadius.card,
+    marginBottom: 8,
     shadowColor: colors.shadow,
     shadowOpacity: 0.1,
     shadowRadius: 3,
     shadowOffset: {width: 0, height: 2},
     elevation: 2,
   },
-  infoContainer: {
-    flexShrink: 1,
-    marginRight: 16,
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   description: {
     fontSize: fontSizes.subtitle,
     fontWeight: fontWeights.button,
     color: colors.primary,
-    marginBottom: 4,
-  },
-  date: {
-    fontSize: fontSizes.subtitle,
-    color: colors.subtitle,
   },
   amount: {
     fontSize: fontSizes.subtitle,
-    fontWeight: fontWeights.title,
+    fontWeight: fontWeights.button,
   },
   credit: {
     color: colors.error,
   },
   debit: {
     color: colors.success,
+  },
+  time: {
+    fontSize: fontSizes.caption,
+    color: colors.subtitle,
+  },
+  type: {
+    fontSize: fontSizes.caption,
+    color: colors.subtitle,
+    marginLeft: 8,
+    textTransform: 'capitalize',
   },
 });

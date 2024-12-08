@@ -13,6 +13,7 @@ export const fontSizes = {
   title: 28,
   subtitle: 16,
   button: 16,
+  caption: 12,
 };
 
 export const borderRadius = {
