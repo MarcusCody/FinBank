@@ -52,7 +52,7 @@ export default function LoginScreen({navigation}: Props) {
     <View style={styles.container}>
       <View style={styles.overlay} />
       <View style={styles.card}>
-        <Text style={styles.title}>Fintech App</Text>
+        <Text style={styles.title}>FinBank</Text>
         <Text style={styles.subtitle}>Secure your finances</Text>
         {error && <Text style={styles.error}>{error}</Text>}
         <Pressable style={styles.button} onPress={handleBiometricAuth}>

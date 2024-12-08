@@ -12,29 +12,58 @@
         <scene sceneID="EHf-IW-A2E">
             <objects>
                 <viewController id="01J-lp-oVM" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
+                    <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3" userInteractionEnabled="NO" multipleTouchEnabled="YES">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <!-- Background Gradient ImageView -->
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SecureTransactionHistory" textAlignment="center" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="GJd-Yh-RWb">
-                                <rect key="frame" x="0.0" y="202" width="375" height="43"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="36"/>
+                            <imageView contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="backgroundImage">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <image key="image" name="BackgroundGradient"/> <!-- Replace with your gradient image name -->
+                            </imageView>
+                            <!-- FinBank Logo -->
+                            <imageView contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="finBankLogo">
+                                <rect key="frame" x="137.5" y="200" width="100" height="100"/>
+                                <image key="image" name="FinBankLogo"/> <!-- Replace with your logo image name -->
+                            </imageView>
+                            <!-- FinBank Title -->
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FinBank" textAlignment="center" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="titleLabel">
+                                <rect key="frame" x="0.0" y="320" width="375" height="50"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="32"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Powered by React Native" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="MN2-I3-ftu">
-                                <rect key="frame" x="0.0" y="626" width="375" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <!-- Tagline Label -->
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your Trusted Financial Partner" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="taglineLabel">
+                                <rect key="frame" x="0.0" y="380" width="375" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <color key="textColor" white="1" alpha="0.9" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="Bcu-3y-fUS" firstAttribute="bottom" secondItem="MN2-I3-ftu" secondAttribute="bottom" constant="20" id="OZV-Vh-mqD"/>
-                            <constraint firstItem="Bcu-3y-fUS" firstAttribute="centerX" secondItem="GJd-Yh-RWb" secondAttribute="centerX" id="Q3B-4B-g5h"/>
-                            <constraint firstItem="MN2-I3-ftu" firstAttribute="centerX" secondItem="Bcu-3y-fUS" secondAttribute="centerX" id="akx-eg-2ui"/>
-                            <constraint firstItem="MN2-I3-ftu" firstAttribute="leading" secondItem="Bcu-3y-fUS" secondAttribute="leading" id="i1E-0Y-4RG"/>
-                            <constraint firstItem="GJd-Yh-RWb" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="bottom" multiplier="1/3" constant="1" id="moa-c2-u7t"/>
-                            <constraint firstItem="GJd-Yh-RWb" firstAttribute="leading" secondItem="Bcu-3y-fUS" secondAttribute="leading" symbolic="YES" id="x7j-FC-K8j"/>
+                            <!-- BackgroundImage Constraints -->
+                            <constraint firstItem="backgroundImage" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="bkgTop"/>
+                            <constraint firstItem="backgroundImage" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="bkgLeading"/>
+                            <constraint firstItem="backgroundImage" firstAttribute="trailing" secondItem="Ze5-6b-2t3" secondAttribute="trailing" id="bkgTrailing"/>
+                            <constraint firstItem="backgroundImage" firstAttribute="bottom" secondItem="Ze5-6b-2t3" secondAttribute="bottom" id="bkgBottom"/>
+
+                            <!-- FinBank Logo Constraints -->
+                            <constraint firstItem="finBankLogo" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="logoCenterX"/>
+                            <constraint firstItem="finBankLogo" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" constant="150" id="logoTop"/>
+                            <constraint firstItem="finBankLogo" firstAttribute="width" constant="100" id="logoWidth"/>
+                            <constraint firstItem="finBankLogo" firstAttribute="height" constant="100" id="logoHeight"/>
+
+                            <!-- Title Label Constraints -->
+                            <constraint firstItem="titleLabel" firstAttribute="top" secondItem="finBankLogo" secondAttribute="bottom" constant="20" id="titleTop"/>
+                            <constraint firstItem="titleLabel" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" constant="20" id="titleLeading"/>
+                            <constraint firstItem="titleLabel" firstAttribute="trailing" secondItem="Ze5-6b-2t3" secondAttribute="trailing" constant="-20" id="titleTrailing"/>
+
+                            <!-- Tagline Label Constraints -->
+                            <constraint firstItem="taglineLabel" firstAttribute="top" secondItem="titleLabel" secondAttribute="bottom" constant="8" id="taglineTop"/>
+                            <constraint firstItem="taglineLabel" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" constant="20" id="taglineLeading"/>
+                            <constraint firstItem="taglineLabel" firstAttribute="trailing" secondItem="Ze5-6b-2t3" secondAttribute="trailing" constant="-20" id="taglineTrailing"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Bcu-3y-fUS"/>
                     </view>
