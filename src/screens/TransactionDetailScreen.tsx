@@ -44,7 +44,11 @@ export default function TransactionDetailScreen({route}: Props) {
       <ScrollView
         contentContainerStyle={styles.container}
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            tintColor="#6200EE"
+          />
         }>
         <Text style={styles.error}>{error}</Text>
       </ScrollView>
@@ -56,7 +60,11 @@ export default function TransactionDetailScreen({route}: Props) {
       <ScrollView
         contentContainerStyle={styles.container}
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            tintColor="#6200EE"
+          />
         }>
         <Text>Loading transaction...</Text>
       </ScrollView>
@@ -67,7 +75,11 @@ export default function TransactionDetailScreen({route}: Props) {
     <ScrollView
       contentContainerStyle={styles.container}
       refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+          tintColor="#6200EE"
+        />
       }>
       <View style={styles.detailCard}>
         <Text style={styles.header}>Transaction Details</Text>
@@ -101,7 +113,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF',
     borderRadius: 8,
     padding: 16,
-
     // subtle shadow
     shadowColor: '#000',
     shadowOpacity: 0.1,
@@ -110,7 +121,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   header: {
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: '700',
     marginBottom: 12,
     color: '#333',
@@ -118,7 +129,7 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: 'row',
-    marginBottom: 8,
+    marginBottom: 12,
   },
   label: {
     width: 100,
@@ -130,5 +141,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     flexShrink: 1,
     color: '#333',
+    fontWeight: '500',
   },
 });

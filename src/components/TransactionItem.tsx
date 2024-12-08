@@ -9,7 +9,11 @@ interface Props {
 }
 
 export default function TransactionItem({transaction, onPress, masked}: Props) {
-  const displayAmount = masked ? '****' : `RM ${transaction.amount.toFixed(2)}`;
+  const displayAmount = masked
+    ? '*****'
+    : `${
+        transaction.type === 'credit' ? '-' : ''
+      }RM ${transaction.amount.toFixed(2)}`;
 
   return (
     <Pressable style={styles.card} onPress={onPress}>
@@ -34,24 +38,30 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: '#FFF',
     borderRadius: 8,
-    padding: 12,
-    marginBottom: 8,
+    padding: 16,
+    marginBottom: 12,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
 
-    // subtle shadow on iOS
     shadowColor: '#000',
     shadowOpacity: 0.1,
     shadowRadius: 3,
     shadowOffset: {width: 0, height: 2},
+    elevation: 2,
   },
   infoContainer: {
     flexShrink: 1,
+    marginRight: 16,
   },
-  description: {fontSize: 16, fontWeight: '600', color: '#333'},
-  date: {fontSize: 12, color: '#888', marginTop: 4},
-  amount: {fontSize: 16, fontWeight: '600'},
-  credit: {color: 'green'},
-  debit: {color: 'red'},
+  description: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#333',
+    marginBottom: 4,
+  },
+  date: {fontSize: 12, color: '#888'},
+  amount: {fontSize: 16, fontWeight: '700'},
+  credit: {color: 'red'},
+  debit: {color: 'green'},
 });

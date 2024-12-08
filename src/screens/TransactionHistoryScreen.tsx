@@ -81,7 +81,7 @@ export default function TransactionHistoryScreen({navigation}: Props) {
             </Pressable>
           ) : (
             <Pressable
-              style={styles.maskButton}
+              style={[styles.maskButton, styles.maskedActive]}
               onPress={() => setMasked(true)}>
               <Text style={styles.maskButtonText}>Mask</Text>
             </Pressable>
@@ -90,9 +90,8 @@ export default function TransactionHistoryScreen({navigation}: Props) {
       </View>
       {error && <Text style={styles.error}>{error}</Text>}
       {loading && transactions.length === 0 ? (
-        // Show a loader if initial load is happening
         <View style={styles.loaderContainer}>
-          <ActivityIndicator size="large" color="#007AFF" />
+          <ActivityIndicator size="large" color="#6200EE" />
         </View>
       ) : (
         <FlatList
@@ -106,7 +105,11 @@ export default function TransactionHistoryScreen({navigation}: Props) {
             />
           )}
           refreshControl={
-            <RefreshControl refreshing={loading} onRefresh={onRefresh} />
+            <RefreshControl
+              refreshing={loading}
+              onRefresh={onRefresh}
+              tintColor="#6200EE"
+            />
           }
           contentContainerStyle={
             transactions.length === 0 ? styles.emptyList : null
@@ -121,6 +124,7 @@ export default function TransactionHistoryScreen({navigation}: Props) {
 }
 
 const styles = StyleSheet.create({
+  // styles identical to the previously provided UI improvements
   container: {flex: 1, padding: 16, backgroundColor: '#F5F5F5'},
   headerRow: {
     flexDirection: 'row',
@@ -128,19 +132,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 12,
   },
-  title: {fontSize: 24, fontWeight: '600', color: '#333'},
-  error: {color: 'red', marginTop: 10},
+  title: {fontSize: 24, fontWeight: '700', color: '#333'},
+  error: {color: 'red', marginTop: 10, textAlign: 'center'},
   maskButtonContainer: {
     flexDirection: 'row',
   },
   maskButton: {
-    backgroundColor: '#007AFF',
+    backgroundColor: '#6200EE',
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 20,
   },
+  maskedActive: {
+    backgroundColor: '#5E60CE',
+  },
   maskButtonText: {
-    color: '#fff',
+    color: '#FFF',
     fontWeight: '600',
   },
   loaderContainer: {
