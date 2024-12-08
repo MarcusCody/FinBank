@@ -71,6 +71,28 @@ export default function TransactionHistoryScreen({navigation}: Props) {
     loadData();
   }, [loadData]);
 
+  const groupTransactionsByDate = (transactions: Transaction[]) => {
+    return transactions.reduce((groups, transaction) => {
+      const date = new Date(transaction.date).toLocaleDateString('en-US', {
+        weekday: 'short',
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+      });
+      if (!groups[date]) {
+        groups[date] = [];
+      }
+      groups[date].push(transaction);
+      return groups;
+    }, {} as Record<string, Transaction[]>);
+  };
+
+  const groupedTransactions = groupTransactionsByDate(transactions);
+  const groupedTransactionList = Object.keys(groupedTransactions).map(date => ({
+    date,
+    data: groupedTransactions[date],
+  }));
+
   return (
     <View style={styles.container}>
       <View style={styles.headerRow}>
@@ -96,14 +118,20 @@ export default function TransactionHistoryScreen({navigation}: Props) {
         </View>
       ) : (
         <FlatList
-          data={transactions}
-          keyExtractor={item => item.id}
+          data={groupedTransactionList}
+          keyExtractor={item => item.date}
           renderItem={({item}) => (
-            <TransactionItem
-              transaction={item}
-              masked={masked}
-              onPress={() => onPressTransaction(item.id)}
-            />
+            <View>
+              <Text style={styles.dateHeader}>{item.date}</Text>
+              {item.data.map(transaction => (
+                <TransactionItem
+                  key={transaction.id}
+                  transaction={transaction}
+                  masked={masked}
+                  onPress={() => onPressTransaction(transaction.id)}
+                />
+              ))}
+            </View>
           )}
           refreshControl={
             <RefreshControl
@@ -163,5 +191,11 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  dateHeader: {
+    fontSize: fontSizes.subtitle,
+    fontWeight: fontWeights.title,
+    color: colors.primary,
+    marginVertical: 8,
   },
 });
