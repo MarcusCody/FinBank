@@ -1,61 +1,120 @@
-import React, { useState } from 'react';
-import { View, Button, Text, StyleSheet } from 'react-native';
-import ReactNativeBiometrics, { BiometryTypes } from 'react-native-biometrics';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../navigation/AppNavigator.tsx';
+import React, {useEffect, useState} from 'react';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
+import ReactNativeBiometrics, {BiometryTypes} from 'react-native-biometrics';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../navigation/AppNavigator';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
 const rnb = new ReactNativeBiometrics();
 
-export default function LoginScreen({ navigation }: Props) {
+export default function LoginScreen({navigation}: Props) {
   const [error, setError] = useState<string | null>(null);
-  const [biometryType, setBiometryType] = useState<string | null>(null);
+  const [selectedBiometryType, setSelectedBiometryType] = useState<
+    keyof typeof BiometryTypes | null
+  >(null);
 
-  const checkBiometricAvailability = async () => {
-    const { available, biometryType } = await rnb.isSensorAvailable();
-    if (!available) {
-      setError('Biometrics not available on this device');
-      return;
-    }
-    if (biometryType === BiometryTypes.TouchID) {
-      setBiometryType('Touch ID');
-    } else if (biometryType === BiometryTypes.FaceID) {
-      setBiometryType('Face ID');
-    } else if (biometryType === BiometryTypes.Biometrics) {
-      setBiometryType('Biometrics');
-    }
-  };
+  useEffect(() => {
+    (async () => {
+      const {available, biometryType} = await rnb.isSensorAvailable();
+      if (!available) {
+        setError('No Biometrics available on this device.');
+      } else if (biometryType) {
+        setSelectedBiometryType(biometryType);
+      }
+    })();
+  }, []);
 
   const handleBiometricAuth = async () => {
     try {
-      // This will prompt the user for their biometrics (Face ID/Touch ID)
-      const { success } = await rnb.simplePrompt({ promptMessage: 'Login with Biometrics' });
-
+      const {success} = await rnb.simplePrompt({promptMessage: 'Authenticate'});
       if (success) {
-        // Navigate to Transactions screen if authentication passes
         navigation.replace('Transactions');
       } else {
-        setError('Authentication failed or was canceled by user.');
+        setError('Authentication failed. Please try again.');
       }
-    } catch (e: any) {
-      setError(e.message);
+    } catch (err: any) {
+      setError(err.message);
     }
+  };
+
+  const getBiometryName = () => {
+    if (selectedBiometryType === BiometryTypes.FaceID) {
+      return 'Face ID';
+    }
+    if (selectedBiometryType === BiometryTypes.TouchID) {
+      return 'Touch ID';
+    }
+    return 'Biometrics';
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Welcome to Fintech App</Text>
-      {error && <Text style={styles.error}>{error}</Text>}
-      {biometryType && <Text>Supported Biometry: {biometryType}</Text>}
-      <Button title="Check Biometry" onPress={checkBiometricAvailability} />
-      <Button title="Login with Biometrics" onPress={handleBiometricAuth} />
+      <View style={styles.overlay} />
+      <View style={styles.card}>
+        <Text style={styles.title}>Fintech App</Text>
+        <Text style={styles.subtitle}>Secure your finances</Text>
+        {error && <Text style={styles.error}>{error}</Text>}
+        <Pressable style={styles.button} onPress={handleBiometricAuth}>
+          <Text style={styles.buttonText}>
+            Login with {selectedBiometryType ? getBiometryName() : 'Biometrics'}
+          </Text>
+        </Pressable>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 16 },
-  title: { fontSize: 24, marginBottom: 20 },
-  error: { color: 'red', marginBottom: 10 },
+  container: {
+    flex: 1,
+    backgroundColor: '#6200EE',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(98,0,238,0.3)',
+  },
+  card: {
+    backgroundColor: '#FFF',
+    padding: 24,
+    borderRadius: 12,
+    width: '80%',
+    alignItems: 'center',
+
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    shadowOffset: {width: 0, height: 4},
+    elevation: 5,
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: '700',
+    color: '#333',
+    marginBottom: 8,
+  },
+  subtitle: {
+    fontSize: 16,
+    color: '#666',
+    marginBottom: 24,
+    textAlign: 'center',
+  },
+  error: {
+    color: 'red',
+    marginBottom: 16,
+    textAlign: 'center',
+  },
+  button: {
+    backgroundColor: '#6200EE',
+    borderRadius: 24,
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+  },
+  buttonText: {
+    color: '#FFF',
+    fontWeight: '600',
+    fontSize: 16,
+  },
 });
