@@ -105,7 +105,9 @@ export default function TransactionDetailScreen({route}: Props) {
         </View>
         <View style={styles.row}>
           <Text style={styles.label}>Type:</Text>
-          <Text style={styles.value}>{transaction.type}</Text>
+          <Text style={[styles.value, styles.capitalize]}>
+            {transaction.type}
+          </Text>
         </View>
         <View style={styles.row}>
           <Text style={styles.label}>Date</Text>
@@ -168,5 +170,8 @@ const styles = StyleSheet.create({
   },
   debit: {
     color: colors.success,
+  },
+  capitalize: {
+    textTransform: 'capitalize',
   },
 });
