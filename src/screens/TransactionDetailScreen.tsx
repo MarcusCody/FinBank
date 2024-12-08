@@ -85,19 +85,30 @@ export default function TransactionDetailScreen({route}: Props) {
       <View style={styles.detailCard}>
         <Text style={styles.header}>Transaction Details</Text>
         <View style={styles.row}>
-          <Text style={styles.label}>Description:</Text>
-          <Text style={styles.value}>{transaction.description}</Text>
+          <Text style={styles.label}>Amount</Text>
+          <Text
+            style={[
+              styles.amount,
+              transaction.type === 'credit' ? styles.credit : styles.debit,
+            ]}>
+            {transaction.type === 'credit' ? '-' : ''}RM{' '}
+            {transaction.amount.toFixed(2)}
+          </Text>
         </View>
         <View style={styles.row}>
-          <Text style={styles.label}>Amount:</Text>
-          <Text style={styles.value}>RM {transaction.amount.toFixed(2)}</Text>
+          <Text style={styles.label}>Transaction ID</Text>
+          <Text style={styles.value}>{transactionId}</Text>
+        </View>
+        <View style={styles.row}>
+          <Text style={styles.label}>Description</Text>
+          <Text style={styles.value}>{transaction.description}</Text>
         </View>
         <View style={styles.row}>
           <Text style={styles.label}>Type:</Text>
           <Text style={styles.value}>{transaction.type}</Text>
         </View>
         <View style={styles.row}>
-          <Text style={styles.label}>Date:</Text>
+          <Text style={styles.label}>Date</Text>
           <Text style={styles.value}>
             {new Date(transaction.date).toLocaleString()}
           </Text>
@@ -133,19 +144,29 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   row: {
-    flexDirection: 'row',
     marginBottom: 12,
   },
   label: {
-    width: 100,
     fontSize: fontSizes.subtitle,
     fontWeight: fontWeights.button,
     color: colors.subtitle,
+    marginBottom: 4,
   },
   value: {
     fontSize: fontSizes.subtitle,
-    flexShrink: 1,
     color: colors.primary,
     fontWeight: fontWeights.button,
+    marginBottom: 12,
+  },
+  amount: {
+    fontSize: fontSizes.title,
+    fontWeight: fontWeights.title,
+    marginBottom: 12,
+  },
+  credit: {
+    color: colors.error,
+  },
+  debit: {
+    color: colors.success,
   },
 });
